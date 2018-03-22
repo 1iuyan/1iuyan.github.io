@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Block详解 | Mute</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似 block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的一种数据">
+  <meta name="description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似     block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Block详解">
 <meta property="og:url" content="http://yoursite.com/2018/03/21/Block/index.html">
 <meta property="og:site_name" content="Mute">
-<meta property="og:description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似 block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的一种数据">
+<meta property="og:description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似     block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-cZvOQ6-dwd0/WrNXVbTckdI/AAAAAAAAAAk/4ur0OUmDJOk4DlWrUlW4jqlhti3M9suXgCHMYCw/I/15217027393720.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-Vlbv_ZYLhUE/WrNXbzMzCXI/AAAAAAAAAAo/5G3FdC1tj3cyd4rGVL4R45nAyTN7oSI8wCHMYCw/I/15217027673295.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-ciG471D2pKA/WrNeWZtUevI/AAAAAAAAABA/jVTwkgVoyxMF37GVg-vqW4kRXjda7wIUACHMYCw/I/701521704519_.pic.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-fj4OvuNXdCQ/WrNehLxmwgI/AAAAAAAAABM/FPU-1l6YN44khgJFf4UuxpBJ3DtmDR5NwCHMYCw/I/711521704570_.pic_hd.jpg">
-<meta property="og:updated_time" content="2018-03-22T07:49:03.027Z">
+<meta property="og:updated_time" content="2018-03-22T08:06:07.968Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block详解">
-<meta name="twitter:description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似 block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的一种数据">
+<meta name="twitter:description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似     block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的">
 <meta name="twitter:image" content="https://lh3.googleusercontent.com/-cZvOQ6-dwd0/WrNXVbTckdI/AAAAAAAAAAk/4ur0OUmDJOk4DlWrUlW4jqlhti3M9suXgCHMYCw/I/15217027393720.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Mute" type="application/atom+xml">
@@ -165,10 +165,11 @@
       
         <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
 <li>block是OC中非常重要的一种技术手段</li>
-<li>iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似</li>
+<li>iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似    </li>
 <li>block实际上就是Objective-C语言对于<strong>闭包</strong>(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现</li>
 <li>block基本概念：在<strong>需要的时间调用</strong>到的<strong>可能有参数和返回值</strong>的<strong>匿名函数</strong>实现的一种<strong>数据类型</strong></li>
 </ul>
+<a id="more"></a>
 <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><h5 id="从C函数和OC函数的区别来定义block"><a href="#从C函数和OC函数的区别来定义block" class="headerlink" title="从C函数和OC函数的区别来定义block"></a>从C函数和OC函数的区别来定义block</h5><ul>
 <li>C函数写法 <code>int add(int num1, int num2)</code></li>
 <li>OC函数写法 <code>-(void)show:(int num1)</code></li>
