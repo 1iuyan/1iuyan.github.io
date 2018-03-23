@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://lh3.googleusercontent.com/-Vlbv_ZYLhUE/WrNXbzMzCXI/AAAAAAAAAAo/5G3FdC1tj3cyd4rGVL4R45nAyTN7oSI8wCHMYCw/I/15217027673295.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-ciG471D2pKA/WrNeWZtUevI/AAAAAAAAABA/jVTwkgVoyxMF37GVg-vqW4kRXjda7wIUACHMYCw/I/701521704519_.pic.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-fj4OvuNXdCQ/WrNehLxmwgI/AAAAAAAAABM/FPU-1l6YN44khgJFf4UuxpBJ3DtmDR5NwCHMYCw/I/711521704570_.pic_hd.jpg">
-<meta property="og:updated_time" content="2018-03-23T03:50:25.217Z">
+<meta property="og:updated_time" content="2018-03-23T03:52:18.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block详解">
 <meta name="twitter:description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似     block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的">
@@ -210,36 +210,24 @@
 <p>在block中引用外部变量要拷贝一份到堆中。这个时候拷贝到堆中的地址和栈中的地址是一样的。因此它指向“张三”在setString的时候，将指针指向的地址的值进行修改，<br><img src="https://lh3.googleusercontent.com/-ciG471D2pKA/WrNeWZtUevI/AAAAAAAAABA/jVTwkgVoyxMF37GVg-vqW4kRXjda7wIUACHMYCw/I/701521704519_.pic.jpg" alt="701521704519_.pic"><br>但是如果用stringWithString方法就会报错，因为这相当于又开辟了一个新的空间，在堆中将strM的地址指向了新的空间<br><img src="https://lh3.googleusercontent.com/-fj4OvuNXdCQ/WrNehLxmwgI/AAAAAAAAABM/FPU-1l6YN44khgJFf4UuxpBJ3DtmDR5NwCHMYCw/I/711521704570_.pic_hd.jpg" alt="711521704570_.pic_hd">  </p>
 </blockquote>
 <h3 id="block的使用场景"><a href="#block的使用场景" class="headerlink" title="block的使用场景"></a>block的使用场景</h3><ul>
-<li>枚举——通过block获取枚举对象或控制枚举进程</li>
+<li><p>枚举——通过block获取枚举对象或控制枚举进程<br><code>`</code><br>  //这个方法接受一个Block的参数，这个参数对于数组中的每个项目调用一次：<br>  NSArray <em>array = …<br>  [array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL </em>stop) {</p>
+<pre><code>NSLog(@&quot;Object at index %lu is %@&quot;, idx, obj);
+</code></pre><p>  }];</p>
+<p>  //上面的Block需要三个参数，前两个参数指向当前对象及其在数组中的索引。 第三个参数是一个指向布尔变量的指针，可以用来停止枚举，如下所示：<br>  [array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {</p>
+<pre><code>if (...) {
+    *stop = YES;
+}
+</code></pre><p>  }];<br>  //还可以使用enumerateObjectsWithOptions：usingBlock：方法自定义枚举。 例如，指定NSEnumerationReverse这一选项将会反向遍历集合<br>  //如果枚举Block中的代码是处理器密集型(processor-intensive)并且是安全的并发执行 – 您可以使用NSEnumerationConcurrent选项：<br>  [array enumerateObjectsWithOptions:NSEnumerationConcurrent</p>
+<pre><code>                    usingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
+...
+</code></pre><p>  }];</p>
+<p>  //NSDictionary同时也提供一些基于Block的方法，如下所示<br>  NSDictionary <em>dictionary = …<br>  [dictionary enumerateKeysAndObjectsUsingBlock:^ (id key, id obj, BOOL </em>stop) {</p>
+<pre><code>NSLog(@&quot;key: %@, value: %@&quot;, key, obj);
+</code></pre><p>  }];</p>
+</li>
 </ul>
-<pre><code>```
-//这个方法接受一个Block的参数，这个参数对于数组中的每个项目调用一次：
-NSArray *array = ...
-[array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
-    NSLog(@&quot;Object at index %lu is %@&quot;, idx, obj);
-}];
+<p><code>`</code> </p>
 
-//上面的Block需要三个参数，前两个参数指向当前对象及其在数组中的索引。 第三个参数是一个指向布尔变量的指针，可以用来停止枚举，如下所示：
-[array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
-    if (...) {
-        *stop = YES;
-    }
-}];
-//还可以使用enumerateObjectsWithOptions：usingBlock：方法自定义枚举。 例如，指定NSEnumerationReverse这一选项将会反向遍历集合
-//如果枚举Block中的代码是处理器密集型(processor-intensive)并且是安全的并发执行 -- 您可以使用NSEnumerationConcurrent选项：
-[array enumerateObjectsWithOptions:NSEnumerationConcurrent
-                        usingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
-    ...
-}];
-
-//NSDictionary同时也提供一些基于Block的方法，如下所示
-NSDictionary *dictionary = ...
-[dictionary enumerateKeysAndObjectsUsingBlock:^ (id key, id obj, BOOL *stop) {
-    NSLog(@&quot;key: %@, value: %@&quot;, key, obj);
-}];
-
-``` 
-</code></pre>
       
 
       
