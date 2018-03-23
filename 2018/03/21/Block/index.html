@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://lh3.googleusercontent.com/-Vlbv_ZYLhUE/WrNXbzMzCXI/AAAAAAAAAAo/5G3FdC1tj3cyd4rGVL4R45nAyTN7oSI8wCHMYCw/I/15217027673295.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-ciG471D2pKA/WrNeWZtUevI/AAAAAAAAABA/jVTwkgVoyxMF37GVg-vqW4kRXjda7wIUACHMYCw/I/701521704519_.pic.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-fj4OvuNXdCQ/WrNehLxmwgI/AAAAAAAAABM/FPU-1l6YN44khgJFf4UuxpBJ3DtmDR5NwCHMYCw/I/711521704570_.pic_hd.jpg">
-<meta property="og:updated_time" content="2018-03-23T03:53:26.677Z">
+<meta property="og:updated_time" content="2018-03-23T03:54:36.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block详解">
 <meta name="twitter:description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似     block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的">
@@ -212,32 +212,12 @@
 <h3 id="block的使用场景"><a href="#block的使用场景" class="headerlink" title="block的使用场景"></a>block的使用场景</h3><ul>
 <li>枚举——通过block获取枚举对象或控制枚举进程</li>
 </ul>
-<pre><code>//这个方法接受一个Block的参数，这个参数对于数组中的每个项目调用一次：
-NSArray *array = ...
-[array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
-    NSLog(@&quot;Object at index %lu is %@&quot;, idx, obj);
-}];
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">    //这个方法接受一个Block的参数，这个参数对于数组中的每个项目调用一次：</span><br><span class="line">    NSArray *array = ...</span><br><span class="line">    [array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">        NSLog(@&quot;Object at index %lu is %@&quot;, idx, obj);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    //上面的Block需要三个参数，前两个参数指向当前对象及其在数组中的索引。 第三个参数是一个指向布尔变量的指针，可以用来停止枚举，如下所示：</span><br><span class="line">    [array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">        if (...) &#123;</span><br><span class="line">            *stop = YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    //还可以使用enumerateObjectsWithOptions：usingBlock：方法自定义枚举。 例如，指定NSEnumerationReverse这一选项将会反向遍历集合</span><br><span class="line">    //如果枚举Block中的代码是处理器密集型(processor-intensive)并且是安全的并发执行 -- 您可以使用NSEnumerationConcurrent选项：</span><br><span class="line">    [array enumerateObjectsWithOptions:NSEnumerationConcurrent</span><br><span class="line">                            usingBlock:^ (id obj, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    //NSDictionary同时也提供一些基于Block的方法，如下所示</span><br><span class="line">    NSDictionary *dictionary = ...</span><br><span class="line">    [dictionary enumerateKeysAndObjectsUsingBlock:^ (id key, id obj, BOOL *stop) &#123;</span><br><span class="line">        NSLog(@&quot;key: %@, value: %@&quot;, key, obj);</span><br><span class="line">    &#125;];</span><br><span class="line">         </span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* UIView动画——简单明了的方式规定动画</span><br></pre></td></tr></table></figure>
+<p>[UIView animateWithDuration:0.2 animations:^{</p>
+<p>} completion:^(BOOL finished) {</p>
+<p>}];</p>
+<p><code>`</code>    </p>
 
-//上面的Block需要三个参数，前两个参数指向当前对象及其在数组中的索引。 第三个参数是一个指向布尔变量的指针，可以用来停止枚举，如下所示：
-[array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
-    if (...) {
-        *stop = YES;
-    }
-}];
-//还可以使用enumerateObjectsWithOptions：usingBlock：方法自定义枚举。 例如，指定NSEnumerationReverse这一选项将会反向遍历集合
-//如果枚举Block中的代码是处理器密集型(processor-intensive)并且是安全的并发执行 -- 您可以使用NSEnumerationConcurrent选项：
-[array enumerateObjectsWithOptions:NSEnumerationConcurrent
-                        usingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
-    ...
-}];
-
-//NSDictionary同时也提供一些基于Block的方法，如下所示
-NSDictionary *dictionary = ...
-[dictionary enumerateKeysAndObjectsUsingBlock:^ (id key, id obj, BOOL *stop) {
-    NSLog(@&quot;key: %@, value: %@&quot;, key, obj);
-}];
-
-</code></pre>
       
 
       
