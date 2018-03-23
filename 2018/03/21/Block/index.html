@@ -17,9 +17,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-cZvOQ6-dwd0/WrNXVbTckdI/AAAAAAAAAAk/4ur0OUmDJOk4DlWrUlW4jqlhti3M9suXgCHMYCw/I/15217027393720.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-Vlbv_ZYLhUE/WrNXbzMzCXI/AAAAAAAAAAo/5G3FdC1tj3cyd4rGVL4R45nAyTN7oSI8wCHMYCw/I/15217027673295.jpg">
-<meta property="og:image" content="https://lh3.googleusercontent.com/-ciG471D2pKA/WrNeWZtUevI/AAAAAAAAABA/jVTwkgVoyxMF37GVg-vqW4kRXjda7wIUACHMYCw/I/701521704519_.pic.jpg">
-<meta property="og:image" content="https://lh3.googleusercontent.com/-fj4OvuNXdCQ/WrNehLxmwgI/AAAAAAAAABM/FPU-1l6YN44khgJFf4UuxpBJ3DtmDR5NwCHMYCw/I/711521704570_.pic_hd.jpg">
-<meta property="og:updated_time" content="2018-03-23T03:09:30.464Z">
+<meta property="og:updated_time" content="2018-03-23T03:11:43.866Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block详解">
 <meta name="twitter:description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似     block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的">
@@ -205,53 +203,84 @@
 <p>答案:如果要在block中，修改外部变量的值，需要用<strong>block修饰符号。使用了</strong>block，说明函数不关心具体数值的具体变化。<br>在block中，如果引用了外部使用的__block变量，block定义之后，外部变量的指针地址同样会变成堆区的地址。之所以可以修改是因为它们的指针指向的地址是相同的。</p>
 </blockquote>
 <p>下面是一段能正确运行的代码。为啥定义成mutableString能在block内部对外部变量进行修改了？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void demoBlock() &#123;</span><br><span class="line">    NSMutableString *strM = [NSMutableString stringWithString:@”张三”];</span><br><span class="line">    void(^myBlock)() = ^&#123;</span><br><span class="line">        [strM setString:@”lisa”];</span><br><span class="line">    &#125;;</span><br><span class="line">    myBlock();</span><br><span class="line">    NSLog(@”%@”,strM);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>在block中引用外部变量要拷贝一份到堆中。这个时候拷贝到堆中的地址和栈中的地址是一样的。因此它指向“张三”在setString的时候，将指针指向的地址的值进行修改，<br><img src="https://lh3.googleusercontent.com/-ciG471D2pKA/WrNeWZtUevI/AAAAAAAAABA/jVTwkgVoyxMF37GVg-vqW4kRXjda7wIUACHMYCw/I/701521704519_.pic.jpg" alt="701521704519_.pic"><br>但是如果用stringWithString方法就会报错，因为这相当于又开辟了一个新的空间，在堆中将strM的地址指向了新的空间<br><img src="https://lh3.googleusercontent.com/-fj4OvuNXdCQ/WrNehLxmwgI/AAAAAAAAABM/FPU-1l6YN44khgJFf4UuxpBJ3DtmDR5NwCHMYCw/I/711521704570_.pic_hd.jpg" alt="711521704570_.pic_hd">  </p>
-</blockquote>
-<h3 id="block的使用场景"><a href="#block的使用场景" class="headerlink" title="block的使用场景"></a>block的使用场景</h3><ul>
-<li><p>枚举——通过block获取枚举对象或控制枚举进程</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">    //这个方法接受一个Block的参数，这个参数对于数组中的每个项目调用一次：</span><br><span class="line">    NSArray *array = ...</span><br><span class="line">    [array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">        NSLog(@&quot;Object at index %lu is %@&quot;, idx, obj);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    //上面的Block需要三个参数，前两个参数指向当前对象及其在数组中的索引。 第三个参数是一个指向布尔变量的指针，可以用来停止枚举，如下所示：</span><br><span class="line">    [array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">        if (...) &#123;</span><br><span class="line">            *stop = YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    //还可以使用enumerateObjectsWithOptions：usingBlock：方法自定义枚举。 例如，指定NSEnumerationReverse这一选项将会反向遍历集合</span><br><span class="line">    //如果枚举Block中的代码是处理器密集型(processor-intensive)并且是安全的并发执行 -- 您可以使用NSEnumerationConcurrent选项：</span><br><span class="line">    [array enumerateObjectsWithOptions:NSEnumerationConcurrent</span><br><span class="line">                            usingBlock:^ (id obj, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    //NSDictionary同时也提供一些基于Block的方法，如下所示</span><br><span class="line">    NSDictionary *dictionary = ...</span><br><span class="line">    [dictionary enumerateKeysAndObjectsUsingBlock:^ (id key, id obj, BOOL *stop) &#123;</span><br><span class="line">        NSLog(@&quot;key: %@, value: %@&quot;, key, obj);</span><br><span class="line">    &#125;];</span><br><span class="line">    ```     </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">* UIView动画——简单明了的方式规定动画</span><br></pre></td></tr></table></figure>
-<p>  [UIView animateWithDuration:0.2 animations:^{</p>
-<p>  } completion:^(BOOL finished) {</p>
-<p>  }];</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">    </span><br><span class="line">* 排序——在block内写排序算法</span><br></pre></td></tr></table></figure>
-<p>  NSArray *arr = @[@”2”, @”3”, @”4”, @”1”, @”5”];<br>  arr = [arr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {</p>
-<pre><code>//升序
-return [obj1 compare:obj2];
-//降序
-return [obj2 compare:obj1];
-</code></pre><p>  }];</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">    </span><br><span class="line">* 作为回调</span><br></pre></td></tr></table></figure>
-<p>  NSURLSessionDataTask <em>task = [self.sessionManager POST:url parameters:cmd.params progress:nil success:^(NSURLSessionDataTask </em> _Nonnull task, id  _Nullable responseObject) {</p>
-<pre><code>if (success) {
-    success(respond);
-}
-</code></pre><p>  } failure:^(NSURLSessionDataTask <em> _Nullable task, NSError </em> _Nonnull error) {</p>
-<pre><code>if (failed) {
-    failed(nil,error);
-}
-</code></pre><p>  }];</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">* 链式编程和函数式编程：参考[Masonry](https://github.com/SnapKit/Masonry)和[ReactiveCocoa ](https://github.com/ReactiveCocoa/ReactiveCocoa)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* 简化并发任务，操作队列</span><br></pre></td></tr></table></figure>
-<p>  NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{<br>  …<br>}];<br>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)<br>//要将该block分派到队列中，您可以使用dispatch_async（）或dispatch_sync（）函数。<br>// dispatch_async（）函数不会等待要调用的block执行完毕，而是立即返回：<br>dispatch_async(queue, ^{<br>  NSLog(@”Block for asynchronous execution”);<br>});</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### block使用过程引发的内存泄漏</span><br><span class="line"></span><br><span class="line">* 描述</span><br><span class="line"></span><br><span class="line">    &gt;当一个对象持有了block后，block内部又使用了这个对象或者对象的实例变量、实例方法，这样会使block也持有这个对象，这样相互持有就是循环引用，从而导致对象无法释放引起内存泄露。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* 解决</span><br><span class="line">    </span><br><span class="line">    &gt;要解决循环引用只需要不要相互持有就行了，也就是说只需要一方持有就可以不让block再持有当前这个对象就OK。</span><br></pre></td></tr></table></figure>
-<p>  //循环引用，self持有了block，block又持有了self<br>  self.block = ^{</p>
-<pre><code>self.info = @&quot;hahahh&quot;;
-[self someMethod];
-</code></pre><p>  };</p>
-<p>  //MRC下解决循环引用，不要在block内部直接使用self，要使用<strong>block修饰的self
-  </strong>block typeof (self)blockSelf = self;<br>  self.block = ^{</p>
-<pre><code>blockSelf.info = @&quot;hahahh&quot;;
-[blockSelf someMethod];
-</code></pre><p>  };</p>
-<p>  //ARC下解决循环引用，不要在block内部直接使用self，要使用<strong>weak修饰的self
-  </strong>weak typeof (self)weakSelf = self;<br>  self.block = ^{</p>
-<pre><code>weakSelf.info = @&quot;hahahh&quot;;
-[weakSelf someMethod];
-</code></pre><p>  };<br>  <code>`</code></p>
-</li>
-</ul>
-<ul>
+<!--<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">void demoBlock() &#123;</span><br><span class="line">    NSMutableString *strM = [NSMutableString stringWithString:@”张三”];</span><br><span class="line">    void(^myBlock)() = ^&#123;</span><br><span class="line">        [strM setString:@”lisa”];</span><br><span class="line">    &#125;;</span><br><span class="line">    myBlock();</span><br><span class="line">    NSLog(@”%@”,strM);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">```--&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;在block中引用外部变量要拷贝一份到堆中。这个时候拷贝到堆中的地址和栈中的地址是一样的。因此它指向“张三”在setString的时候，将指针指向的地址的值进行修改，</span><br><span class="line">&gt;![701521704519_.pic](https://lh3.googleusercontent.com/-ciG471D2pKA/WrNeWZtUevI/AAAAAAAAABA/jVTwkgVoyxMF37GVg-vqW4kRXjda7wIUACHMYCw/I/701521704519_.pic.jpg)</span><br><span class="line">但是如果用stringWithString方法就会报错，因为这相当于又开辟了一个新的空间，在堆中将strM的地址指向了新的空间</span><br><span class="line">![711521704570_.pic_hd](https://lh3.googleusercontent.com/-fj4OvuNXdCQ/WrNehLxmwgI/AAAAAAAAABM/FPU-1l6YN44khgJFf4UuxpBJ3DtmDR5NwCHMYCw/I/711521704570_.pic_hd.jpg)  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### block的使用场景</span><br><span class="line"></span><br><span class="line">* 枚举——通过block获取枚举对象或控制枚举进程</span><br></pre></td></tr></table></figure>
+<pre><code>//这个方法接受一个Block的参数，这个参数对于数组中的每个项目调用一次：
+NSArray *array = ...
+[array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
+    NSLog(@&quot;Object at index %lu is %@&quot;, idx, obj);
+}];
+
+//上面的Block需要三个参数，前两个参数指向当前对象及其在数组中的索引。 第三个参数是一个指向布尔变量的指针，可以用来停止枚举，如下所示：
+[array enumerateObjectsUsingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
+    if (...) {
+        *stop = YES;
+    }
+}];
+//还可以使用enumerateObjectsWithOptions：usingBlock：方法自定义枚举。 例如，指定NSEnumerationReverse这一选项将会反向遍历集合
+//如果枚举Block中的代码是处理器密集型(processor-intensive)并且是安全的并发执行 -- 您可以使用NSEnumerationConcurrent选项：
+[array enumerateObjectsWithOptions:NSEnumerationConcurrent
+                        usingBlock:^ (id obj, NSUInteger idx, BOOL *stop) {
+    ...
+}];
+
+//NSDictionary同时也提供一些基于Block的方法，如下所示
+NSDictionary *dictionary = ...
+[dictionary enumerateKeysAndObjectsUsingBlock:^ (id key, id obj, BOOL *stop) {
+    NSLog(@&quot;key: %@, value: %@&quot;, key, obj);
+}];
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">    </span><br><span class="line">* UIView动画——简单明了的方式规定动画</span><br></pre></td></tr></table></figure>
+
+[UIView animateWithDuration:0.2 animations:^{
+
+} completion:^(BOOL finished) {
+
+}];
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">    </span><br><span class="line">* 排序——在block内写排序算法</span><br></pre></td></tr></table></figure>
+
+NSArray *arr = @[@&quot;2&quot;, @&quot;3&quot;, @&quot;4&quot;, @&quot;1&quot;, @&quot;5&quot;];
+arr = [arr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+    //升序
+    return [obj1 compare:obj2];
+    //降序
+    return [obj2 compare:obj1];
+}];
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">    </span><br><span class="line">* 作为回调</span><br></pre></td></tr></table></figure>
+
+NSURLSessionDataTask *task = [self.sessionManager POST:url parameters:cmd.params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    if (success) {
+        success(respond);
+    }
+} failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    if (failed) {
+        failed(nil,error);
+    }
+}];
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">* 链式编程和函数式编程：参考[Masonry](https://github.com/SnapKit/Masonry)和[ReactiveCocoa ](https://github.com/ReactiveCocoa/ReactiveCocoa)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* 简化并发任务，操作队列</span><br></pre></td></tr></table></figure>
+
+NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+...
+</code></pre><p>}];<br>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)<br>//要将该block分派到队列中，您可以使用dispatch_async（）或dispatch_sync（）函数。<br>// dispatch_async（）函数不会等待要调用的block执行完毕，而是立即返回：<br>dispatch_async(queue, ^{<br>    NSLog(@”Block for asynchronous execution”);<br>});<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### block使用过程引发的内存泄漏</span><br><span class="line"></span><br><span class="line">* 描述</span><br><span class="line"></span><br><span class="line">    &gt;当一个对象持有了block后，block内部又使用了这个对象或者对象的实例变量、实例方法，这样会使block也持有这个对象，这样相互持有就是循环引用，从而导致对象无法释放引起内存泄露。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">* 解决</span><br><span class="line">    </span><br><span class="line">    &gt;要解决循环引用只需要不要相互持有就行了，也就是说只需要一方持有就可以不让block再持有当前这个对象就OK。</span><br></pre></td></tr></table></figure></p>
+<pre><code>//循环引用，self持有了block，block又持有了self   
+self.block = ^{
+    self.info = @&quot;hahahh&quot;;
+    [self someMethod];
+};
+
+//MRC下解决循环引用，不要在block内部直接使用self，要使用__block修饰的self
+__block typeof (self)blockSelf = self;
+self.block = ^{
+    blockSelf.info = @&quot;hahahh&quot;;
+    [blockSelf someMethod];
+};
+
+//ARC下解决循环引用，不要在block内部直接使用self，要使用__weak修饰的self
+__weak typeof (self)weakSelf = self;
+self.block = ^{
+    weakSelf.info = @&quot;hahahh&quot;;
+    [weakSelf someMethod];
+};
+```
+</code></pre><ul>
 <li><p>__block在arc和mrc下的含义</p>
 <blockquote>
 <p>Block === 栈上结构体实例<br><strong>block === 栈上</strong>block结构体实例</p>
@@ -275,7 +304,7 @@ return [obj2 compare:obj1];
 </ul>
 </li>
 </ul>
-
+-->
       
 
       
@@ -397,7 +426,7 @@ return [obj2 compare:obj1];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">2.</span> <span class="toc-text">定义</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#从C函数和OC函数的区别来定义block"><span class="toc-number">2.0.1.</span> <span class="toc-text">从C函数和OC函数的区别来定义block</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#从结构来定义block"><span class="toc-number">2.0.2.</span> <span class="toc-text">从结构来定义block</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#从代码实现定义block"><span class="toc-number">2.0.3.</span> <span class="toc-text">从代码实现定义block</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型"><span class="toc-number">3.</span> <span class="toc-text">类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量的复制"><span class="toc-number">4.</span> <span class="toc-text">变量的复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#block的使用场景"><span class="toc-number">5.</span> <span class="toc-text">block的使用场景</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">2.</span> <span class="toc-text">定义</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#从C函数和OC函数的区别来定义block"><span class="toc-number">2.0.1.</span> <span class="toc-text">从C函数和OC函数的区别来定义block</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#从结构来定义block"><span class="toc-number">2.0.2.</span> <span class="toc-text">从结构来定义block</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#从代码实现定义block"><span class="toc-number">2.0.3.</span> <span class="toc-text">从代码实现定义block</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型"><span class="toc-number">3.</span> <span class="toc-text">类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量的复制"><span class="toc-number">4.</span> <span class="toc-text">变量的复制</span></a></li></ol>
                     </div>
                 </span>
             </div>
