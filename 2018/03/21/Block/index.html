@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://lh3.googleusercontent.com/-Vlbv_ZYLhUE/WrNXbzMzCXI/AAAAAAAAAAo/5G3FdC1tj3cyd4rGVL4R45nAyTN7oSI8wCHMYCw/I/15217027673295.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-ciG471D2pKA/WrNeWZtUevI/AAAAAAAAABA/jVTwkgVoyxMF37GVg-vqW4kRXjda7wIUACHMYCw/I/701521704519_.pic.jpg">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-fj4OvuNXdCQ/WrNehLxmwgI/AAAAAAAAABM/FPU-1l6YN44khgJFf4UuxpBJ3DtmDR5NwCHMYCw/I/711521704570_.pic_hd.jpg">
-<meta property="og:updated_time" content="2018-03-23T03:54:36.744Z">
+<meta property="og:updated_time" content="2018-03-23T03:59:46.554Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block详解">
 <meta name="twitter:description" content="介绍 block是OC中非常重要的一种技术手段 iOS SDK4.0后，Apple大力推荐block。字面上block就是一个代码块，底层是结构体，和c语言中的函数有些类似     block实际上就是Objective-C语言对于闭包(一个函数「或指向函数的指针」+ 该函数执行的外部的上下文变量「也就是自由变量」)的实现 block基本概念：在需要的时间调用到的可能有参数和返回值的匿名函数实现的">
@@ -216,7 +216,42 @@
 <p>[UIView animateWithDuration:0.2 animations:^{</p>
 <p>} completion:^(BOOL finished) {</p>
 <p>}];</p>
-<p><code>`</code>    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">* 排序——在block内写排序算法</span><br></pre></td></tr></table></figure>
+<p>NSArray *arr = @[@”2”, @”3”, @”4”, @”1”, @”5”];<br>arr = [arr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {<br>    //升序<br>    return [obj1 compare:obj2];<br>    //降序<br>    return [obj2 compare:obj1];<br>}];</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 作为回调</span><br></pre></td></tr></table></figure>
+<p>NSURLSessionDataTask <em>task = [self.sessionManager POST:url parameters:cmd.params progress:nil success:^(NSURLSessionDataTask </em> _Nonnull task, id  _Nullable responseObject) {<br>    if (success) {<br>        success(respond);<br>    }<br>} failure:^(NSURLSessionDataTask <em> _Nullable task, NSError </em> _Nonnull error) {<br>    if (failed) {<br>        failed(nil,error);<br>    }<br>}];</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* 链式编程和函数式编程：参考[Masonry](https://github.com/SnapKit/Masonry)和[ReactiveCocoa ](https://github.com/ReactiveCocoa/ReactiveCocoa)</span><br><span class="line"></span><br><span class="line">* 简化并发任务，操作队列</span><br></pre></td></tr></table></figure>
+<p>NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{<br>    …<br>}];<br>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)<br>//要将该block分派到队列中，您可以使用dispatch_async（）或dispatch_sync（）函数。<br>// dispatch_async（）函数不会等待要调用的block执行完毕，而是立即返回：<br>dispatch_async(queue, ^{<br>    NSLog(@”Block for asynchronous execution”);<br>});</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### block使用过程引发的内存泄漏</span><br><span class="line"></span><br><span class="line">* 描述</span><br><span class="line"></span><br><span class="line">&gt;当一个对象持有了block后，block内部又使用了这个对象或者对象的实例变量、实例方法，这样会使block也持有这个对象，这样相互持有就是循环引用，从而导致对象无法释放引起内存泄露。</span><br><span class="line"></span><br><span class="line">* 解决</span><br><span class="line">    </span><br><span class="line">&gt;要解决循环引用只需要不要相互持有就行了，也就是说只需要一方持有就可以不让block再持有当前这个对象就OK。</span><br></pre></td></tr></table></figure>
+<p>//循环引用，self持有了block，block又持有了self<br>self.block = ^{<br>    self.info = @”hahahh”;<br>    [self someMethod];<br>};</p>
+<p>//MRC下解决循环引用，不要在block内部直接使用self，要使用<strong>block修饰的self
+</strong>block typeof (self)blockSelf = self;<br>self.block = ^{<br>    blockSelf.info = @”hahahh”;<br>    [blockSelf someMethod];<br>};</p>
+<p>//ARC下解决循环引用，不要在block内部直接使用self，要使用<strong>weak修饰的self
+</strong>weak typeof (self)weakSelf = self;<br>self.block = ^{<br>    weakSelf.info = @”hahahh”;<br>    [weakSelf someMethod];<br>};</p>
+<p><code>`</code></p>
+<ul>
+<li>__block在arc和mrc下的含义</li>
+</ul>
+<blockquote>
+<p>Block === 栈上结构体实例<br><strong>block === 栈上</strong>block结构体实例</p>
+</blockquote>
+<blockquote>
+<p>在arc中， <strong>block修饰的变量会引用到，并且计算+1<br>在非arc中，</strong>block修饰的变量的引用计算是不变的。</p>
+</blockquote>
+<blockquote>
+<p>如果要在ARC下, 为了防止循环引用, 使用<strong>block来修饰在Block中实用的对象,仍然会被retain, 所以需要多做一些设置
+</strong>block id blockSelf=self;<br>self.blk=^{<br>    NSLog(@”%@”,blockSelf);<br>    self.blk=nil; //blk被释放, blk只有的blockSelf也就被释放了<br>};<br>blk(); //并且一定要运行一次, 否则不能被释放<br>这样就使blk断开了与blockSelf的持有关系.<br>这么做好处是可以自己控制对self的持有时间.</p>
+</blockquote>
+<ul>
+<li>总结<ul>
+<li>在MRC 时代，<strong>block 修饰，可以避免循环引用；ARC时代，</strong>block 修饰，同样会引起循环引用问题</li>
+<li>__block不管是ARC还是MRC模式下都可以使用，可以修饰对象，还可以修饰基本数据类型</li>
+<li>__weak只能在ARC模式下使用，也只能修饰对象，不能修饰基本数据类型</li>
+<li><strong>block对象可以在block中被重新赋值，</strong>weak不可以</li>
+<li><strong>unsafe_unretained修饰符可以被视为iOS SDK 4.3以前版本的</strong>weak的替代品，不过不会被自动置空为nil。所以尽可能不要使用这个修饰符。(__weak 会自动置为nil)</li>
+</ul>
+</li>
+</ul>
 
       
 
