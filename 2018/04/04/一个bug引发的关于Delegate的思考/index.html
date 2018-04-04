@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>一个bug引发的关于Delegate的思考 | Mute</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前些天同组的小伙伴遇到一个很神奇的bug，一起研究了好久终于排查出问题所在，当然大家应该已经猜到了这个问题是因为Delegate的使用所导致的。接下来我先简单的将这个问题描述一下 问题描述场景描述如下图所示：  矩形框1里面的每个标签对应一个tableView, 该tableView都是由同一个类实例化所得。 矩形框2是一个音频播放器，初始化是在tableView内的，UI在tableViewCe">
+  <meta name="description" content="前些天同组的小伙伴遇到一个很神奇的bug，一起研究了好久终于排查出问题所在，当然大家应该已经猜到了这个问题是因为Delegate的使用所导致的。接下来我先简单的将这个问题描述一下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个bug引发的关于Delegate的思考">
 <meta property="og:url" content="http://yoursite.com/2018/04/04/一个bug引发的关于Delegate的思考/index.html">
 <meta property="og:site_name" content="Mute">
-<meta property="og:description" content="前些天同组的小伙伴遇到一个很神奇的bug，一起研究了好久终于排查出问题所在，当然大家应该已经猜到了这个问题是因为Delegate的使用所导致的。接下来我先简单的将这个问题描述一下 问题描述场景描述如下图所示：  矩形框1里面的每个标签对应一个tableView, 该tableView都是由同一个类实例化所得。 矩形框2是一个音频播放器，初始化是在tableView内的，UI在tableViewCe">
+<meta property="og:description" content="前些天同组的小伙伴遇到一个很神奇的bug，一起研究了好久终于排查出问题所在，当然大家应该已经猜到了这个问题是因为Delegate的使用所导致的。接下来我先简单的将这个问题描述一下">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-3DpLz3kmll4/WsRqkRTzAHI/AAAAAAAAABk/IP9ZnpnxO3AJq0mltFMAGOd3DyY2UgDcQCHMYCw/I/IMG_3579.PNG">
-<meta property="og:updated_time" content="2018-04-04T06:48:13.743Z">
+<meta property="og:updated_time" content="2018-04-04T06:48:55.617Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个bug引发的关于Delegate的思考">
-<meta name="twitter:description" content="前些天同组的小伙伴遇到一个很神奇的bug，一起研究了好久终于排查出问题所在，当然大家应该已经猜到了这个问题是因为Delegate的使用所导致的。接下来我先简单的将这个问题描述一下 问题描述场景描述如下图所示：  矩形框1里面的每个标签对应一个tableView, 该tableView都是由同一个类实例化所得。 矩形框2是一个音频播放器，初始化是在tableView内的，UI在tableViewCe">
+<meta name="twitter:description" content="前些天同组的小伙伴遇到一个很神奇的bug，一起研究了好久终于排查出问题所在，当然大家应该已经猜到了这个问题是因为Delegate的使用所导致的。接下来我先简单的将这个问题描述一下">
 <meta name="twitter:image" content="https://lh3.googleusercontent.com/-3DpLz3kmll4/WsRqkRTzAHI/AAAAAAAAABk/IP9ZnpnxO3AJq0mltFMAGOd3DyY2UgDcQCHMYCw/I/IMG_3579.PNG">
   
     <link rel="alternative" href="/atom.xml" title="Mute" type="application/atom+xml">
@@ -161,6 +161,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>前些天同组的小伙伴遇到一个很神奇的bug，一起研究了好久终于排查出问题所在，当然大家应该已经猜到了这个问题是因为Delegate的使用所导致的。接下来我先简单的将这个问题描述一下</p>
+<a id="more"></a>
 <h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><h5 id="场景描述"><a href="#场景描述" class="headerlink" title="场景描述"></a>场景描述</h5><p>如下图所示：<br><img src="https://lh3.googleusercontent.com/-3DpLz3kmll4/WsRqkRTzAHI/AAAAAAAAABk/IP9ZnpnxO3AJq0mltFMAGOd3DyY2UgDcQCHMYCw/I/IMG_3579.PNG" alt="IMG_3579"></p>
 <ul>
 <li>矩形框1里面的每个标签对应一个<code>tableView</code>, 该<code>tableView</code>都是由同一个类实例化所得。</li>
