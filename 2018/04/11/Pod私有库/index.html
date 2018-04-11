@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Pod私有库 | Mute</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有 第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的） 第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的） 第三步 本地创建后续要被共享的Lib">
+  <meta name="description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pod私有库">
 <meta property="og:url" content="http://yoursite.com/2018/04/11/Pod私有库/index.html">
 <meta property="og:site_name" content="Mute">
-<meta property="og:description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有 第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的） 第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的） 第三步 本地创建后续要被共享的Lib">
+<meta property="og:description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-XLuhoG-l1BU/Ws2xWpAuotI/AAAAAAAAAB0/jWW3Xl80yZo2ykPWMvmeGaoEvmkWJg-RACHMYCw/I/60273827.png">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-uuvgmU1VVf4/Ws2xhArxmUI/AAAAAAAAAB4/RfBT0QFshrIyIeN-ROqHiM-vRqQdZzpzgCHMYCw/I/60534302.png">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-hquY1n554Do/Ws2xmM5l_5I/AAAAAAAAAB8/N2q-Vc0tffcRcazzsGwX0ruA13BgF2YtgCHMYCw/I/60803321.png">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-NPWL3KRDi8o/Ws2yYhIWglI/AAAAAAAAACw/TelXSTXqoYsmxmhQEd2WKs3hqwHoRRBTwCHMYCw/I/68751933.png">
-<meta property="og:updated_time" content="2018-04-11T07:01:33.529Z">
+<meta property="og:updated_time" content="2018-04-11T07:02:19.176Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pod私有库">
-<meta name="twitter:description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有 第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的） 第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的） 第三步 本地创建后续要被共享的Lib">
+<meta name="twitter:description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有">
 <meta name="twitter:image" content="https://lh3.googleusercontent.com/-XLuhoG-l1BU/Ws2xWpAuotI/AAAAAAAAAB0/jWW3Xl80yZo2ykPWMvmeGaoEvmkWJg-RACHMYCw/I/60273827.png">
   
     <link rel="alternative" href="/atom.xml" title="Mute" type="application/atom+xml">
@@ -166,6 +166,7 @@
         <h3 id="pod索引流程"><a href="#pod索引流程" class="headerlink" title="pod索引流程"></a>pod索引流程</h3><p><img src="https://lh3.googleusercontent.com/-XLuhoG-l1BU/Ws2xWpAuotI/AAAAAAAAAB0/jWW3Xl80yZo2ykPWMvmeGaoEvmkWJg-RACHMYCw/I/60273827.png" alt="60273827"></p>
 <p>.podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载</p>
 <p>Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有</p>
+<a id="more"></a>
 <h4 id="第一步-创建用于存储-podspec后缀文件的Git仓库（此处仓库为公开的）"><a href="#第一步-创建用于存储-podspec后缀文件的Git仓库（此处仓库为公开的）" class="headerlink" title="第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的）"></a>第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的）</h4><p><img src="https://lh3.googleusercontent.com/-uuvgmU1VVf4/Ws2xhArxmUI/AAAAAAAAAB4/RfBT0QFshrIyIeN-ROqHiM-vRqQdZzpzgCHMYCw/I/60534302.png" alt="60534302"></p>
 <h4 id="第二步-创建用于存储工程代码文件的私有库（此处仓库为私有的）"><a href="#第二步-创建用于存储工程代码文件的私有库（此处仓库为私有的）" class="headerlink" title="第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的）"></a>第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的）</h4><p><img src="https://lh3.googleusercontent.com/-hquY1n554Do/Ws2xmM5l_5I/AAAAAAAAAB8/N2q-Vc0tffcRcazzsGwX0ruA13BgF2YtgCHMYCw/I/60803321.png" alt="60803321"></p>
 <h4 id="第三步-本地创建后续要被共享的Lib工程"><a href="#第三步-本地创建后续要被共享的Lib工程" class="headerlink" title="第三步 本地创建后续要被共享的Lib工程"></a>第三步 本地创建后续要被共享的Lib工程</h4><ul>
