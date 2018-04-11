@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Pod私有库 | Mute</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="pod索引流程">
+  <meta name="description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pod私有库">
 <meta property="og:url" content="http://yoursite.com/2018/04/11/Pod私有库/index.html">
 <meta property="og:site_name" content="Mute">
-<meta property="og:description" content="pod索引流程">
+<meta property="og:description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-XLuhoG-l1BU/Ws2xWpAuotI/AAAAAAAAAB0/jWW3Xl80yZo2ykPWMvmeGaoEvmkWJg-RACHMYCw/I/60273827.png">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-uuvgmU1VVf4/Ws2xhArxmUI/AAAAAAAAAB4/RfBT0QFshrIyIeN-ROqHiM-vRqQdZzpzgCHMYCw/I/60534302.png">
@@ -30,10 +30,10 @@
 <meta property="og:image" content="https://lh3.googleusercontent.com/-A3ENdJoqxU4/Ws2yL0YO-7I/AAAAAAAAACk/tKCC4c9_dXomHZDlH84JtjpbdQHCnQQRwCHMYCw/I/67101826.png">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-2xxmWIFgjiA/Ws2yRJ723sI/AAAAAAAAACo/3SdqYi6CiXgHObIUItEy2gd4VOJszp7mQCHMYCw/I/37451146.png">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-NPWL3KRDi8o/Ws2yYhIWglI/AAAAAAAAACw/TelXSTXqoYsmxmhQEd2WKs3hqwHoRRBTwCHMYCw/I/68751933.png">
-<meta property="og:updated_time" content="2018-04-11T07:08:49.150Z">
+<meta property="og:updated_time" content="2018-04-11T07:12:40.913Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pod私有库">
-<meta name="twitter:description" content="pod索引流程">
+<meta name="twitter:description" content="pod索引流程 .podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载 Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有">
 <meta name="twitter:image" content="https://lh3.googleusercontent.com/-XLuhoG-l1BU/Ws2xWpAuotI/AAAAAAAAAB0/jWW3Xl80yZo2ykPWMvmeGaoEvmkWJg-RACHMYCw/I/60273827.png">
   
     <link rel="alternative" href="/atom.xml" title="Mute" type="application/atom+xml">
@@ -174,10 +174,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="pod索引流程"><a href="#pod索引流程" class="headerlink" title="pod索引流程"></a>pod索引流程</h3><a id="more"></a>
-<p><img src="https://lh3.googleusercontent.com/-XLuhoG-l1BU/Ws2xWpAuotI/AAAAAAAAAB0/jWW3Xl80yZo2ykPWMvmeGaoEvmkWJg-RACHMYCw/I/60273827.png" alt="60273827"></p>
+        <h3 id="pod索引流程"><a href="#pod索引流程" class="headerlink" title="pod索引流程"></a>pod索引流程</h3><p><img src="https://lh3.googleusercontent.com/-XLuhoG-l1BU/Ws2xWpAuotI/AAAAAAAAAB0/jWW3Xl80yZo2ykPWMvmeGaoEvmkWJg-RACHMYCw/I/60273827.png" alt="60273827"></p>
 <p>.podspec : 该文件为你的代码仓库索引描述文件，CocoaPods通过该文件对你真正存储代码工程的 Git 仓库进行索引与下载</p>
 <p>Lib : 你上传到远程Git仓库的代码工程，将来用于开源共享或则私有</p>
+<a id="more"></a>
 <h4 id="第一步-创建用于存储-podspec后缀文件的Git仓库（此处仓库为公开的）"><a href="#第一步-创建用于存储-podspec后缀文件的Git仓库（此处仓库为公开的）" class="headerlink" title="第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的）"></a>第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的）</h4><p><img src="https://lh3.googleusercontent.com/-uuvgmU1VVf4/Ws2xhArxmUI/AAAAAAAAAB4/RfBT0QFshrIyIeN-ROqHiM-vRqQdZzpzgCHMYCw/I/60534302.png" alt="60534302"></p>
 <h4 id="第二步-创建用于存储工程代码文件的私有库（此处仓库为私有的）"><a href="#第二步-创建用于存储工程代码文件的私有库（此处仓库为私有的）" class="headerlink" title="第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的）"></a>第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的）</h4><p><img src="https://lh3.googleusercontent.com/-hquY1n554Do/Ws2xmM5l_5I/AAAAAAAAAB8/N2q-Vc0tffcRcazzsGwX0ruA13BgF2YtgCHMYCw/I/60803321.png" alt="60803321"></p>
 <h4 id="第三步-本地创建后续要被共享的Lib工程"><a href="#第三步-本地创建后续要被共享的Lib工程" class="headerlink" title="第三步 本地创建后续要被共享的Lib工程"></a>第三步 本地创建后续要被共享的Lib工程</h4><ul>
@@ -209,9 +209,7 @@ git push origin master
 <h6 id="本地和远程验证文件有效性"><a href="#本地和远程验证文件有效性" class="headerlink" title="本地和远程验证文件有效性"></a>本地和远程验证文件有效性</h6><pre><code>pod spec lint
 </code></pre><p>执行之后会报如下错误：<br><img src="https://lh3.googleusercontent.com/-648M3vD1oF8/Ws2yBndkWZI/AAAAAAAAACY/hZ7jdgpWa2sfAitxFM78N9RuxfuV6Ck8gCHMYCw/I/62948344.png" alt="62948344"></p>
 <p>原因是我们没有在远端创建tag版本，执行以下代码<br>    git tag -a 0.1.0 -m ‘0.1.0标签’<br>    git push –tags<br>    pod spec lint<br><img src="https://lh3.googleusercontent.com/-x90aQ1N5LVw/Ws2yFG-j5BI/AAAAAAAAACc/nFVO7LOUAOISoYn7msr_oku_wrv8l2gbgCHMYCw/I/63054138.png" alt="63054138"></p>
-<p>#####大功告成</p>
-<p>####第八步 上传.podspec到第一个远程私有仓库</p>
-<ul>
+<h5 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h5><h4 id="第八步-上传-podspec到第一个远程私有仓库"><a href="#第八步-上传-podspec到第一个远程私有仓库" class="headerlink" title="第八步 上传.podspec到第一个远程私有仓库"></a>第八步 上传.podspec到第一个远程私有仓库</h4><ul>
 <li><p>首先进入 ~/.cocoapods/repos 目录下<br><img src="https://lh3.googleusercontent.com/-vNvA6ixZlRw/Ws2yIaSB0jI/AAAAAAAAACg/Q8baHBF6-SM6-fVhmzTSQ2bPdiqTk39dgCHMYCw/I/67015371.png" alt="67015371"></p>
 </li>
 <li><p>然后创建一个私有仓库目录<br>  pod repo add PrivatePodspec 第一个私有仓库地址<br><img src="https://lh3.googleusercontent.com/-A3ENdJoqxU4/Ws2yL0YO-7I/AAAAAAAAACk/tKCC4c9_dXomHZDlH84JtjpbdQHCnQQRwCHMYCw/I/67101826.png" alt="67101826"></p>
@@ -358,7 +356,7 @@ git push origin master
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#pod索引流程"><span class="toc-number">1.</span> <span class="toc-text">pod索引流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第一步-创建用于存储-podspec后缀文件的Git仓库（此处仓库为公开的）"><span class="toc-number">1.1.</span> <span class="toc-text">第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第二步-创建用于存储工程代码文件的私有库（此处仓库为私有的）"><span class="toc-number">1.2.</span> <span class="toc-text">第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三步-本地创建后续要被共享的Lib工程"><span class="toc-number">1.3.</span> <span class="toc-text">第三步 本地创建后续要被共享的Lib工程</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#生成的工程目录及文件介绍"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">生成的工程目录及文件介绍</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#创建自己的文件"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">创建自己的文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四步-配置-podspec-后缀文件"><span class="toc-number">1.4.</span> <span class="toc-text">第四步 配置 .podspec 后缀文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第五步-验证-podspec文件的格式的正确性"><span class="toc-number">1.5.</span> <span class="toc-text">第五步 验证 .podspec文件的格式的正确性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第六步-将本地PrivateLib工程与远程私有-Git-仓库关联"><span class="toc-number">1.6.</span> <span class="toc-text">第六步 将本地PrivateLib工程与远程私有 Git 仓库关联</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第七步-执行完以上操作，我们的远程仓库已经有我们上传的代码了，我们然后进行本地和远程验证文件有效性"><span class="toc-number">1.7.</span> <span class="toc-text">第七步 执行完以上操作，我们的远程仓库已经有我们上传的代码了，我们然后进行本地和远程验证文件有效性</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#本地和远程验证文件有效性"><span class="toc-number">1.7.0.1.</span> <span class="toc-text">本地和远程验证文件有效性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第十步-更新私有库，构建不同版本"><span class="toc-number">1.8.</span> <span class="toc-text">第十步 更新私有库，构建不同版本</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#同组人员使用私有pod需要先执行以下命令"><span class="toc-number">1.8.1.</span> <span class="toc-text">同组人员使用私有pod需要先执行以下命令</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#pod索引流程"><span class="toc-number">1.</span> <span class="toc-text">pod索引流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第一步-创建用于存储-podspec后缀文件的Git仓库（此处仓库为公开的）"><span class="toc-number">1.1.</span> <span class="toc-text">第一步 创建用于存储.podspec后缀文件的Git仓库（此处仓库为公开的）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第二步-创建用于存储工程代码文件的私有库（此处仓库为私有的）"><span class="toc-number">1.2.</span> <span class="toc-text">第二步 创建用于存储工程代码文件的私有库（此处仓库为私有的）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三步-本地创建后续要被共享的Lib工程"><span class="toc-number">1.3.</span> <span class="toc-text">第三步 本地创建后续要被共享的Lib工程</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#生成的工程目录及文件介绍"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">生成的工程目录及文件介绍</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#创建自己的文件"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">创建自己的文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四步-配置-podspec-后缀文件"><span class="toc-number">1.4.</span> <span class="toc-text">第四步 配置 .podspec 后缀文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第五步-验证-podspec文件的格式的正确性"><span class="toc-number">1.5.</span> <span class="toc-text">第五步 验证 .podspec文件的格式的正确性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第六步-将本地PrivateLib工程与远程私有-Git-仓库关联"><span class="toc-number">1.6.</span> <span class="toc-text">第六步 将本地PrivateLib工程与远程私有 Git 仓库关联</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第七步-执行完以上操作，我们的远程仓库已经有我们上传的代码了，我们然后进行本地和远程验证文件有效性"><span class="toc-number">1.7.</span> <span class="toc-text">第七步 执行完以上操作，我们的远程仓库已经有我们上传的代码了，我们然后进行本地和远程验证文件有效性</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#本地和远程验证文件有效性"><span class="toc-number">1.7.0.1.</span> <span class="toc-text">本地和远程验证文件有效性</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#大功告成"><span class="toc-number">1.7.1.</span> <span class="toc-text">大功告成</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第八步-上传-podspec到第一个远程私有仓库"><span class="toc-number">1.8.</span> <span class="toc-text">第八步 上传.podspec到第一个远程私有仓库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第十步-更新私有库，构建不同版本"><span class="toc-number">1.9.</span> <span class="toc-text">第十步 更新私有库，构建不同版本</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#同组人员使用私有pod需要先执行以下命令"><span class="toc-number">1.9.1.</span> <span class="toc-text">同组人员使用私有pod需要先执行以下命令</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
