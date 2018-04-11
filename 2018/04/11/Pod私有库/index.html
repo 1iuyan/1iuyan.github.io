@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://lh3.googleusercontent.com/-A3ENdJoqxU4/Ws2yL0YO-7I/AAAAAAAAACk/tKCC4c9_dXomHZDlH84JtjpbdQHCnQQRwCHMYCw/I/67101826.png">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-2xxmWIFgjiA/Ws2yRJ723sI/AAAAAAAAACo/3SdqYi6CiXgHObIUItEy2gd4VOJszp7mQCHMYCw/I/37451146.png">
 <meta property="og:image" content="https://lh3.googleusercontent.com/-NPWL3KRDi8o/Ws2yYhIWglI/AAAAAAAAACw/TelXSTXqoYsmxmhQEd2WKs3hqwHoRRBTwCHMYCw/I/68751933.png">
-<meta property="og:updated_time" content="2018-04-11T07:05:40.584Z">
+<meta property="og:updated_time" content="2018-04-11T07:08:49.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pod私有库">
 <meta name="twitter:description" content="pod索引流程">
@@ -199,8 +199,8 @@
 <li>s.dependency :项目所依赖的第三方库(如果需要)</li>
 </ul>
 <p><img src="https://lh3.googleusercontent.com/-L92rfjNkOeo/Ws2x2molrYI/AAAAAAAAACM/AhvP2np_fq0V1jhg6aHThBR-_e2ZSxdDwCHMYCw/I/61848068.png" alt="61848068"></p>
-<h4 id="第五步-验证-podspec文件的格式的正确性"><a href="#第五步-验证-podspec文件的格式的正确性" class="headerlink" title="第五步 验证 .podspec文件的格式的正确性"></a>第五步 验证 .podspec文件的格式的正确性</h4><pre><code>还是 .podspec 同级目录下，在终端输入pod lib lint
-</code></pre><p><img src="https://lh3.googleusercontent.com/-HdBVnsKZlLE/Ws2x6MH1XeI/AAAAAAAAACQ/TzU9TRzm8Zc4EtOuKCx4e2RAziqNqXNdgCHMYCw/I/62524229.png" alt="62524229"></p>
+<h4 id="第五步-验证-podspec文件的格式的正确性"><a href="#第五步-验证-podspec文件的格式的正确性" class="headerlink" title="第五步 验证 .podspec文件的格式的正确性"></a>第五步 验证 .podspec文件的格式的正确性</h4><p>还是 .podspec 同级目录下，在终端输入pod lib lint</p>
+<p><img src="https://lh3.googleusercontent.com/-HdBVnsKZlLE/Ws2x6MH1XeI/AAAAAAAAACQ/TzU9TRzm8Zc4EtOuKCx4e2RAziqNqXNdgCHMYCw/I/62524229.png" alt="62524229"></p>
 <h4 id="第六步-将本地PrivateLib工程与远程私有-Git-仓库关联"><a href="#第六步-将本地PrivateLib工程与远程私有-Git-仓库关联" class="headerlink" title="第六步 将本地PrivateLib工程与远程私有 Git 仓库关联"></a>第六步 将本地PrivateLib工程与远程私有 Git 仓库关联</h4><pre><code>git remote add origin 远程仓库地址
 git pull origin master --allow-unrelated-histories
 拉去数据的时候会出现冲突，我们把head里的删掉，保留远程的
